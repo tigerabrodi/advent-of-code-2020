@@ -13,3 +13,7 @@ When reading files with fs, you need to specify the encoding. Otherwise, you wil
 - Figure out if a number adds to number equals 2020 by subtracting 2020 from the number and checking if the result is in the Set.
 - Set a label to the outer loop to break from inner loop all the way to outer loop
 - If doing nested loop, outer loop should end earlier, not at length
+
+# Password Philosophy
+
+- Remember to use regex groups to get the values you want
