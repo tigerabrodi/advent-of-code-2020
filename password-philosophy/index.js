@@ -27,7 +27,7 @@ arr.forEach((line) => {
 
 let result = 0;
 
-// part two
+// part one
 // for (const password in obj) {
 //   const { min, max, char } = obj[password];
 //   const charcount = password.split("").filter((c) => c === char).length;
@@ -37,6 +37,7 @@ let result = 0;
 //   }
 // }
 
+// part two
 for (const password in obj) {
   const { firstPosition, secondPosition, char } = obj[password];
   const firstChar = password[firstPosition - 1];
