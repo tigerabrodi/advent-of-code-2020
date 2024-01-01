@@ -103,3 +103,37 @@ In summary, `\b` is used in regular expressions to ensure that the pattern match
 ### Application in Your Regex
 
 In the context of your regex, `/\b\w+(?=):(\S+)/g` is designed to capture both the key and the value in each key-value pair of your passport data. The key is expected to be a word (`\w+`), and the value can be a wider range of characters (`\S+`), which is why different patterns are used for each.
+
+# Day 7
+
+Regular expressions (regex) are used here to extract the necessary information from each rule.
+
+1. **Rule Regex (`ruleRegex`)**: `^(.*?) bags contain (.*).$`
+
+   - `^`: Asserts the start of the string.
+   - `(.*?)`: A non-greedy match for any characters. This captures the bag color (e.g., "light red").
+   - `bags contain`: Literal text separating the bag color from its contents.
+   - `(.*).`: Matches everything after "bags contain" until the end of the string, capturing the contents of the bag (e.g., "1 bright white bag, 2 muted yellow bags").
+   - `$`: Asserts the end of the string.
+
+2. **Content Regex (`contentRegex`)**: `(\d+) ([\w\s]+) bag`
+   - `(\d+)`: Captures the quantity of each contained bag (e.g., "1").
+   - `([\w\s]+)`: Captures the color of the contained bag. This is a combination of word characters (`\w`) and spaces (`\s`), which together match bag colors like "bright white".
+   - `bag`: Literal text marking the end of each bag description.
+
+## While loop with reassignment trick
+
+The loop `while ((contentMatch = contentRegex.exec(contents)) !== null) { ... }` is a common idiom in JavaScript for working with regular expressions, particularly when using a regex with the global (`g`) flag.
+
+### The `exec` Method
+
+- `exec` is a method of regular expression objects that executes a search for a match in a specified string.
+- When a regex has the global flag (`g`), `exec` behaves differently: each call to `exec` continues the search from where the last match ended. This allows you to find all matches in a string.
+
+### The Loop
+
+- `while ((contentMatch = contentRegex.exec(contents)) !== null) { ... }`
+  - `contentRegex.exec(contents)`: This tries to find the next match in the string `contents`.
+  - `contentMatch = contentRegex.exec(contents)`: The result of the `exec` call (the match object or `null` if no more matches are found) is assigned to `contentMatch`.
+  - The extra parentheses around `contentMatch = contentRegex.exec(contents)` ensure that the assignment is evaluated first, and then its result (the value of `contentMatch`) is compared to `null`.
+  - `!== null`: If a match is found, `exec` returns a match object (which is truthy), otherwise, it returns `null`. The loop continues as long as there are matches found in the string.
