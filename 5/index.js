@@ -41,3 +41,16 @@ arr.forEach((seat) => {
 
   seatIds.push(startRow * 8 + startColumn);
 });
+
+const sortedSeatIds = seatIds.sort((a, b) => a - b);
+const seatIdsWithoutFirstAndLast = sortedSeatIds.slice(1, -1);
+
+for (let i = 0; i < seatIdsWithoutFirstAndLast.length; i++) {
+  const seatId = seatIdsWithoutFirstAndLast[i];
+  const nextSeatId = seatIdsWithoutFirstAndLast[i + 1];
+
+  if (seatId + 1 !== nextSeatId) {
+    console.log(seatId + 1);
+    break;
+  }
+}
