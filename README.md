@@ -74,3 +74,32 @@ The `\b` in a regular expression is known as a word boundary. It's a special kin
    - In your regex `\b\w+(?=:)`, the `\b` at the beginning ensures that the match starts at the beginning of a word. This is important for correctly identifying the keys in your passport data. It prevents the regex from matching a substring of a larger word. For instance, without `\b`, a pattern like `\w+(?=:)` might incorrectly match just `yr` in `byr:1990`, while with `\b`, it correctly identifies the whole `byr`.
 
 In summary, `\b` is used in regular expressions to ensure that the pattern matches complete words, as defined by the boundaries between word characters and non-word characters. This is particularly useful in cases where you need to isolate whole words or symbols, like keys in key-value pairs.
+
+## `/\b\w+(?=):(\S+)/g`
+
+### Breakdown of the Regular Expression
+
+1. **`(\b\w+(?=:))`**:
+
+   - `\b` is a word boundary, ensuring the match starts at the beginning of a word.
+   - `\w+` matches one or more word characters (letters, digits, and underscores).
+   - `(?=:)` is a positive lookahead that asserts what follows is a colon `:` but doesn't include it in the match.
+   - The entire group `(\b\w+(?=:))` is a capturing group that will capture the key part of a key-value pair (like `byr` in `byr:1990`). This group will match a word at the boundary that is immediately followed by a colon.
+
+2. **`:(\S+)`**:
+
+   - `:` matches the colon literally.
+   - `\S+` matches one or more non-whitespace characters. This is a broader category than `\w` as it includes any character that is not a space, tab, newline, etc. It's useful for capturing the values in the key-value pairs, as these values can include a wider range of characters (like `#` in color codes, numbers, or units in measurements).
+   - The group `(\S+)` is another capturing group that captures the value part of a key-value pair.
+
+3. **`/g`**:
+   - This is the global flag that allows the pattern to match all occurrences in the string, not just the first one.
+
+### `\w+` vs. `\S+`
+
+- **`\w+`**: Matches word characters (letters, digits, and underscores). It's limited to alphanumeric characters and underscores.
+- **`\S+`**: Matches any non-whitespace character. It includes a much broader set of characters compared to `\w+`, such as punctuation marks, symbols, and any other characters that are not spaces, tabs, or newline characters.
+
+### Application in Your Regex
+
+In the context of your regex, `/\b\w+(?=):(\S+)/g` is designed to capture both the key and the value in each key-value pair of your passport data. The key is expected to be a word (`\w+`), and the value can be a wider range of characters (`\S+`), which is why different patterns are used for each.
