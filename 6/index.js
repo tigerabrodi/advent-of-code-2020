@@ -18,5 +18,22 @@ const arr = fs.readFileSync("./input.txt", "utf-8").split("\n\n");
 
 //   totalQuestionsAnswered += charactersSet.size;
 // });
+let totalQuestionsAnsweredByAllInGroup = 0;
 
-console.log(totalQuestionsAnswered);
+arr.forEach((group) => {
+  const personAnswers = group.split("\n").filter(Boolean);
+
+  // Initialize the set of questions with the first person's answers
+  let commonQuestions = new Set(personAnswers[0]);
+
+  personAnswers.forEach((answers) => {
+    const currentPersonAnswers = new Set(answers);
+    commonQuestions = new Set(
+      [...commonQuestions].filter((x) => currentPersonAnswers.has(x))
+    );
+  });
+
+  totalQuestionsAnsweredByAllInGroup += commonQuestions.size;
+});
+
+console.log(totalQuestionsAnsweredByAllInGroup);
